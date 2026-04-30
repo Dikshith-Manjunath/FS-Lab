@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <input id="u" placeholder="User"> <input id="p" placeholder="Pass">
+    <button onclick="reg()">Reg</button> <button onclick="login()">Log</button>
+
+    <div id="quiz" style="display:none">
+        <p>2+2? <input type="radio" name="q1" value="4">4 <input type="radio" name="q1" value="5">5</p>
+        <button onclick="sub()">Submit</button>
+    </div>
+
+    <button onclick="view()">View Results</button>
+    <div id="out"></div>
+
+    <script>
+        let cur = "";
+        const send = (url, data) => fetch(url, {
+            method: "POST", headers: {"Content-Type":"application/json"},
+            body: JSON.stringify(data)
+        }).then(r => r.text());
+
+        function reg() { send("/reg", {u: u.value, p: p.value}).then(alert); }
+        function login() { 
+            send("/login", {u: u.value, p: p.value}).then(r => {
+                if(r=="OK") { cur=u.value; quiz.style.display="block"; } else alert(r);
+            });
+        }
+        function sub() {
+            let score = document.querySelector('input[name="q1"]:checked')?.value == "4" ? 1 : 0;
+            send("/sub", {u: cur, s: score}).then(alert);
+        }
+        function view() {
+            fetch("/res").then(r => r.json()).then(d => {
+                out.innerHTML = d.map(x => `<p>${x.u}: ${x.s}</p>`).join("");
+            });
+        }
+    </script>
+</body>
+</html>

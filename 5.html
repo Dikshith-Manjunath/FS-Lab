@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Voting App</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; padding: 20px; }
+        .container { background: white; padding: 20px; border: 1px solid #ccc; width: 300px; text-align: center; }
+        .lang-item { display: flex; justify-content: space-between; margin: 10px 0; background: #eee; padding: 8px; }
+        button { cursor: pointer; background: #007BFF; color: white; border: none; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h3>Vote for Best Language</h3>
+    <div id="languages"></div>
+    <h3>Results</h3>
+    <div id="results"></div>
+</div>
+
+<script>
+    let languages = [
+        {name:"JavaScript", votes:0},
+        {name:"Java", votes:0},
+        {name:"C", votes:0},
+        {name:"C++", votes:0},
+        {name:"Rust", votes:0},
+        {name:"Python", votes:0},
+        {name:"TypeScript", votes:0}
+    ]
+
+    let showLanguages = () => {
+        lang = document.getElementById("languages")
+        lang.innerHTML = ""
+        for (let i=0; i < languages.length; i++){
+            lang.innerHTML += "<div class='lang-item'>"+ 
+                "<p>" + languages[i].name + "</p>" + 
+                "<button onclick= vote("+ i +")>vote</button>"+
+                "</div>"
+        }
+    }
+    let showResults = () => {
+        res = document.getElementById("results")
+        res.innerHTML = ""
+        for(let i=0; i<languages.length; i++){
+            res.innerHTML += "<div>"+ 
+                "<p>" + languages[i].name + " : " + 
+                languages[i].votes + 
+                "</div>"
+        }
+    }
+
+    let vote = (i) => {
+        languages[i].votes++
+        showResults()
+    }
+
+    showLanguages()
+    showResults()
+</script>
+
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Result Analyzer</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; background: #f4f4f4; }
+        table { margin: 20px auto; border-collapse: collapse; background: white; width: 80%; }
+        th, td { border: 1px solid #ccc; padding: 10px; }
+        th { background: #007BFF; color: white; }
+        .res-box { text-align: left; background: white; width: 60%; margin: auto; padding: 20px; border-radius: 8px; }
+    </style>
+</head>
+<body>
+
+    <h1>Student Result Analyzer</h1>
+
+    <table id="marksTable">
+        <tr>
+            <th>Student</th>
+            <th>Math</th>
+            <th>Science</th>
+        </tr>
+    </table>
+
+    <button onclick="addRow()">Add Student</button>
+    <button onclick="calculate()">Calculate Results</button>
+
+    <div id="result" class="res-box"></div>
+
+    <script>
+        let count = 0;
+        let addRow = () =>{
+            count ++
+            table = document.getElementById('marksTable')
+            let row = table.insertRow()
+            row.insertCell(0).innerHTML = 'Student ' + count;
+            row.insertCell(1).innerHTML = "<input type='number' class='m' value='0'>";
+            row.insertCell(2).innerHTML = "<input type='number' class='s' value='0'>";
+        };
+
+        let calculate = () => {
+            let mathInputs = document.querySelectorAll('.m');
+            let scienceInputs = document.querySelectorAll('.s');
+
+            let mMax = 0, mMin = 100, sMax = 0, sMin = 100, mFail = 0, sFail = 0;
+            
+            for (let i = 0; i < mathInputs.length; i++) {
+                let num = Number(mathInputs[i].value);
+                if (num > mMax) mMax = num;
+                if (num < mMin) mMin = num;
+                if (num < 40) mFail++;
+            }
+            
+            for (let i = 0; i < scienceInputs.length; i++) {
+                let num = Number(scienceInputs[i].value);
+                if (num > sMax) sMax = num;
+                if (num < sMin) sMin = num;
+                if (num < 40) sFail++;
+            }
+            
+            let mpass = mathInputs.length - mFail;
+            let spass = scienceInputs.length - sFail;
+            
+            let output = document.getElementById('result');
+            output.innerHTML = "<h3> Math </h3>" + 
+                               "Maximum: " + mMax + ", Minimum: " + mMin + ", Pass Num: " + mpass + ", Fail Num: " + mFail + 
+                               "<br><h3> Science </h3>" + 
+                               "Maximum: " + sMax + ", Minimum: " + sMin + ", Pass Num: " + spass + ", Fail Num: " + sFail;
+        }
+        
+    </script>
+
+</body>
+</html>
+
