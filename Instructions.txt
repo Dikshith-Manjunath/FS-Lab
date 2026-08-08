@@ -1,0 +1,1 @@
+Temporal Spiking Graph Convolutional Networks for Low-Power Dynamic Transaction Fraud Detection
